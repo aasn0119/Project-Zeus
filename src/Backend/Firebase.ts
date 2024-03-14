@@ -2,23 +2,22 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getStorage } from "firebase/storage"; // If you are using Firebase Storage
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID,
+  apiKey: "AIzaSyCyfU_lzbqgTpVonX982SB2lOQBeXVN9gE",
+  authDomain: "project-zeus-01.firebaseapp.com",
+  projectId: "project-zeus-01",
+  storageBucket: "project-zeus-01.appspot.com",
+  messagingSenderId: "988124730987",
+  appId: "1:988124730987:web:9f5caa19590adfc7b3c32e",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
-const auth = getAuth();
+const auth = getAuth(); // If you are using getAuth
+const storage = getStorage(app); // If you are using Firebase Storage
 
-export { db, auth };
+export { db, auth, storage };

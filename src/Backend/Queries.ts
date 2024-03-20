@@ -1,10 +1,10 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, db } from "./Firebase";
 import { toastErr } from "../utils/toast";
 import catchErr from "../utils/catchErr";
 import { authDataType, setloadingType, userType } from "./type";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { NavigateFunction } from "react-router-dom";
+import { NavigateFunction, json } from "react-router-dom";
 import {
   doc,
   getDoc,
@@ -12,7 +12,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { defaultUser, setUser } from "../Redux/userSlice";
+import { defaultUser, setUser, userStorageName } from "../Redux/userSlice";
 import { AppDispatch } from "../Redux/store";
 import convertTime from "../utils/convertTime";
 import AvatarGenerator from "../utils/AvatarGenerator";
@@ -63,6 +63,7 @@ export const BE_signup = (
   } else toastErr("Fields shouldn't be left empty", setLoading);
 };
 
+//  sign in an user...!
 export const BE_signin = (
   data: authDataType,
   setLoading: setloadingType,
@@ -93,6 +94,34 @@ export const BE_signin = (
       catchErr(err);
       setLoading(false);
     });
+};
+
+// signout
+export const BE_signOut = async (
+  dispatch: AppDispatch,
+  goTo: NavigateFunction,
+  setLoading: setloadingType
+) => {
+  setLoading(true);
+
+  // logout from firbase...!
+  await signOut(auth)
+    .then(async () => {
+      // route to auth page...!
+      goTo("/auth");
+
+      // set user offline...!
+      await updateUserInfo({ isOffline: true });
+
+      // set currentSelected user to empty..!
+      dispatch(setUser(defaultUser));
+
+      // remove from local storage...!
+      localStorage.removeItem(userStorageName);
+    })
+    .catch((err) => catchErr(err));
+
+  setLoading(false);
 };
 
 // Add user to Collection...!
@@ -170,8 +199,9 @@ const updateUserInfo = async ({
   }
 };
 
+//  get user from local storage...!
 const getStorageUser = () => {
-  const usr = localStorage.getItem("zeus_user");
+  const usr = localStorage.getItem(userStorageName);
   if (usr) return JSON.parse(usr);
   else return null;
 };

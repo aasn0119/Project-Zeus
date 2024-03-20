@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userType } from "../Backend/type";
 
+export const userStorageName: string = "zeus_user";
 export const defaultUser: userType = {
   id: "",
   username: "",
@@ -28,7 +29,7 @@ const userSlice = createSlice({
       const user = action.payload;
 
       // Store user in Localstorage...!
-      localStorage.setItem("zeus_user", JSON.stringify(user));
+      localStorage.setItem(userStorageName, JSON.stringify(user));
 
       //   set loggedIn User
       state.currentUser = user;

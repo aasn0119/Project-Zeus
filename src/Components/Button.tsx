@@ -1,3 +1,4 @@
+import React from "react";
 import Spinner from "./Spinner";
 
 type ButtonProps = {
@@ -8,16 +9,16 @@ type ButtonProps = {
   loading?: boolean;
 };
 
-const Button = ({
-  text = "Button",
+function Button({
   className,
   secondary,
+  text = "Button",
   onClick,
   loading = false,
-}: ButtonProps) => {
+}: ButtonProps) {
   return (
     <button
-      className={`py-2 px-9 flex justify-center items-center gap-3 rounded-full text-white border-2 transition-all border-white hover:bg-myPink hover:drop-shadow-lg ${
+      className={`py-2 px-9 flex justify-center items-center gap-3 rounded-full text-white border-2 border-white hover:bg-myPink transition-all hover:drop-shadow-lg ${
         secondary ? "bg-myPink" : "bg-myBlue"
       } ${className} ${loading && "cursor-wait"}`}
       onClick={onClick}
@@ -27,6 +28,6 @@ const Button = ({
       {text}
     </button>
   );
-};
+}
 
 export default Button;

@@ -1,4 +1,6 @@
+import React from "react";
 import { IconType } from "react-icons";
+import Spinner from "./Spinner";
 
 type IconProps = {
   IconName: IconType;
@@ -10,35 +12,35 @@ type IconProps = {
   onClick?: () => void;
 };
 
-const Icon = ({
+function Icon({
   IconName,
   className,
   loading,
   onClick,
   ping,
-  reduceOpacityOnHover,
+  reduceOpacityOnHover = true,
   size = 20,
-}: IconProps) => {
+}: IconProps) {
   return (
     <button
       onClick={onClick}
       disabled={loading}
-      className={`relative p-3 rounded-full cursor-pointer hover:bg-myBlue ${
-        reduceOpacityOnHover ? "hover:bg-opacity-30" : "bg-myBlue "
-      }text-white border-2 border-white hover:drop-shadow-lg ${
-        loading && "cursor-wait"
-      } ${className}`}
+      className={`relative p-3 rounded-full cursor-pointer transition-all hover:bg-myBlue ${
+        reduceOpacityOnHover
+          ? "hover:bg-opacity-30"
+          : "bg-myBlue hover:bg-myPink text-white border-2 border-white hover:drop-shadow-lg"
+      } ${loading && "cursor-wait"} ${className}`}
     >
-      {loading ? "loading" : <IconName size={size} />}
+      {loading ? <Spinner /> : <IconName size={size} />}
 
       {ping && (
         <>
-          <span className="absolute inline-flex h-3 w-3 rounded-full bg-myPink -top-1 left-7 border-2 border-gray-900"></span>
-          <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-myPink -top-1 left-7 "></span>
+          <span className="absolute -top-1 left-7 w-3 h-3 border-2 border-gray-800 rounded-full bg-myPink"></span>
+          <span className="animate-ping absolute -top-1 left-7 w-3 h-3 border-gray-800 rounded-full bg-myPink"></span>
         </>
       )}
     </button>
   );
-};
+}
 
 export default Icon;

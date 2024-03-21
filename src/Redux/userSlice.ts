@@ -1,26 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userType } from "../Backend/type";
+import { userType } from "../Types";
 
-export const userStorageName: string = "zeus_user";
+export const userStorageName = "superhero_user";
+
 export const defaultUser: userType = {
   id: "",
   username: "",
   email: "",
   isOnline: false,
   img: "",
-  bio: "",
   creationTime: "",
   lastSeen: "",
+  bio: "",
+};
+type userStateType = {
+  users: userType[];
+  currentUser: userType;
+  alertProps: {
+    open: boolean;
+    recieverId: string;
+    recieverName: string;
+  };
 };
 
-// Define the initial state for the user slice
-const initialState = {
-  // user: [],
+const initialState: userStateType = {
+  users: [],
   currentUser: defaultUser,
-  // currentSelectedUser: null,
+  alertProps: {
+    open: false,
+    recieverId: "",
+    recieverName: "",
+  },
+  // currentSelectedUser:null
 };
 
-// Define the reducers for the user slice
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -28,18 +41,28 @@ const userSlice = createSlice({
     setUser: (state, action) => {
       const user = action.payload;
 
-      // Store user in Localstorage...!
+      // store user in local storage
       localStorage.setItem(userStorageName, JSON.stringify(user));
 
-      //   set loggedIn User
+      // set loged in user
       state.currentUser = user;
     },
     setUsers: (state, action) => {
-      // Set all Users
+      // set all users
+      state.users = action.payload;
+    },
+    setAlertProps: (state, action) => {
+      const { open, recieverId, recieverName } = action.payload;
+
+      state.alertProps = {
+        open,
+        recieverId: recieverId || "",
+        recieverName: recieverName || "",
+      };
     },
   },
 });
 
-// Export the reducers and the state for the user slice
-export const { setUser, setUsers } = userSlice.actions;
+export const { setUser, setUsers, setAlertProps } = userSlice.actions;
+
 export default userSlice.reducer;

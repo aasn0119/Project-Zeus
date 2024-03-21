@@ -1,25 +1,19 @@
-// Create various toasts for error, success, warn and info using react-toastify library
-
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { setloadingType } from "../Backend/type";
+import { setLoadingType } from "../Types";
 
-export const toastErr = (msg: string, setLoading?: setloadingType) => {
+export const toastErr = (msg: string, setLoading?: setLoadingType) => {
   toast.error(msg);
   if (setLoading) setLoading(false);
 };
-
-export const toastSucc = (msg: string, setLoading?: setloadingType) => {
+export const toastSucc = (msg: string, setLoading?: setLoadingType) => {
   toast.success(msg);
   if (setLoading) setLoading(false);
 };
-
-export const toastWarn = (msg: string, setLoading?: setloadingType) => {
+export const toastWarn = (msg: string, setLoading?: setLoadingType) => {
   toast.warn(msg);
   if (setLoading) setLoading(false);
 };
-
-export const toastInfo = (msg: string, setLoading?: setloadingType) => {
+export const toastInfo = (msg: string, setLoading?: setLoadingType) => {
   toast.info(msg);
   if (setLoading) setLoading(false);
 };

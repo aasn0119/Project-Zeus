@@ -2,22 +2,24 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { getStorage } from "firebase/storage"; // If you are using Firebase Storage
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCyfU_lzbqgTpVonX982SB2lOQBeXVN9gE",
-  authDomain: "project-zeus-01.firebaseapp.com",
-  projectId: "project-zeus-01",
-  storageBucket: "project-zeus-01.appspot.com",
-  messagingSenderId: "988124730987",
-  appId: "1:988124730987:web:9f5caa19590adfc7b3c32e",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+// Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
-const auth = getAuth(); // If you are using getAuth
-const storage = getStorage(app); // If you are using Firebase Storage
+const auth = getAuth(); // working with authentication services
 
-export { db, auth, storage };
+export { db, auth };

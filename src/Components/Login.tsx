@@ -1,11 +1,12 @@
-import { useState } from "react";
-import Button from "./Button";
+import React, { useEffect, useState } from "react";
 import Input from "./Input";
-import { BE_signin, BE_signup } from "../Backend/Queries";
-import { useNavigate } from "react-router-dom";
+import Button from "./Button";
+import { BE_signIn, BE_signUp, getStorageUser } from "../Backend/Queries";
+import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../Redux/store";
-import { authDataType } from "../Backend/type";
+import { authDataType } from "../Types";
+import { setUser } from "../Redux/userSlice";
 
 const Login = () => {
   const [login, setLogin] = useState(true);
@@ -16,15 +17,22 @@ const Login = () => {
   const [signInLoading, setSignInLoading] = useState(false);
   const goTo = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const usr = getStorageUser();
+
+  useEffect(() => {
+    if (usr?.id) {
+      dispatch(setUser(usr));
+      goTo("/dashboard");
+    }
+  }, []);
 
   const handleSignup = () => {
     const data = { email, password, confirmPassword };
-    auth(data, BE_signup, setSignUpLoading);
+    auth(data, BE_signUp, setSignUpLoading);
   };
-
   const handleSignin = () => {
     const data = { email, password };
-    auth(data, BE_signin, setSignInLoading);
+    auth(data, BE_signIn, setSignInLoading);
   };
 
   const auth = (
@@ -46,7 +54,7 @@ const Login = () => {
       <h1 className="text-white text-center font-bold text-4xl md:text-6xl mb-10">
         {login ? "Login" : "Register"}
       </h1>
-      <div className="flex gap-4 flex-col w-full bg-white p-6 min-h-[150px] rounded-xl drop-shadow-xl">
+      <div className="flex flex-col gap-3 bg-white w-full p-6 min-h-[150px] rounded-xl drop-shadow-xl">
         <Input
           name="email"
           type="email"
@@ -54,14 +62,14 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <Input
-          name="Password"
+          name="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         {!login && (
           <Input
-            name="confirm-Password"
+            name="confirm-password"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}

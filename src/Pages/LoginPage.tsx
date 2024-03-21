@@ -1,11 +1,12 @@
+import React from "react";
 import Login from "../Components/Login";
 
 const LoginPage = () => {
   return (
-    <div className="h-screen flex items-center justify-center p-10">
+    <div className="h-[100vh] flex items-center justify-center p-10">
       <Login />
-      <div className="w-full h-full bg-gradient-to-r opacity-70 from-myBlue to-myPink top-0 -z-10 absolute" />
-      <div className="w-full h-full absolute bg-pattern -z-20 top-0"></div>
+      <div className="h-full w-full bg-gradient-to-r from-myBlue to-myPink opacity-70 absolute top-0 -z-10" />
+      <div className="h-full w-full absolute bg-pattern -z-20 top-0" />
     </div>
   );
 };
